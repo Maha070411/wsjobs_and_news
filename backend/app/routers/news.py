@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models import News
@@ -23,4 +23,7 @@ def get_news(page: int = 1, limit: int = 10, db: Session = Depends(get_db)):
 
 @router.get("/{news_id}", response_model=NewsResponse)
 def get_news_detail(news_id: int, db: Session = Depends(get_db)):
-    return db.query(News).filter(News.id == news_id).first()
+    news_item = db.query(News).filter(News.id == news_id).first()
+    if not news_item:
+        raise HTTPException(status_code=404, detail="News not found")
+    return news_item

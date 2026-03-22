@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, APIRouter
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from .database import engine, Base, get_db
@@ -39,3 +40,7 @@ def get_top_companies(db: Session = Depends(get_db)):
 @app.get("/")
 def read_root():
     return {"message": "Welcome to JobHub API"}
+
+@app.get("/swagger")
+def read_swagger():
+    return RedirectResponse(url="/docs")

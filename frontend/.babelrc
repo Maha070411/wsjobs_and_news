@@ -14,5 +14,6 @@
                 "runtime": "automatic"
             }
         ]
-    ]
+    ],
+    "plugins": ["babel-plugin-transform-vite-meta-env"]
 }
